@@ -3,11 +3,25 @@
     class Program
     {
         static void Main(string[] args)
-        {   
-            double a, b, c, x1, x2;
+        {   //  типа тесты
+            if (!MakeTest())
+            {
+                Console.WriteLine("Тесты не пройдены, исправьте баги");
+                return;
+            }
+
+            double a, b, c;
+
             Console.WriteLine("ax^2 + bx + c = 0, при a != 0");
             Console.WriteLine("Введите a: ");
+
             a = Convert.ToDouble(Console.ReadLine());
+            if (a == 0)
+            {
+                Console.WriteLine("a не должно равняться нулю");
+                return;
+            }
+
             Console.WriteLine("Введите b: ");
             b = Convert.ToDouble(Console.ReadLine());
             Console.WriteLine("Введите c: ");
@@ -17,30 +31,45 @@
 
             if (d > 0)
             {
-                x1 = (-b + Math.Pow(d, 0.5)) / (2 * a);
-                x2 = (-b - Math.Pow(d, 0.5)) / (2 * a);
+                double x1 = GetX1(a, b, c);
+                double x2 = GetX2(a, b, c);
                 Console.WriteLine($"x1 = {x1}, x2 = {x2}");
             }
             else if (d == 0)
             {
-                x1 = -b / (2 * a);
-                Console.WriteLine($"D = 0, корень один x = {x1}");
+                double x = GetX(a, b, c);
+                Console.WriteLine($"D = 0, корень один x = {x}");
             }
             else  
             {
                 Console.WriteLine("Дискриминант меньше 0, корней нет");
             }
-            //  Console.ReadKey();
-
         }
         static double GetDiscriminant(double a, double b, double c)
         {
             return Math.Pow(b, 2) - 4 * a * c;
         }     
-        static bool MakeTest(double a, double b, double c)
+        static bool MakeTest()
         {
             bool isProgramOk = true;
+
+            double d = GetDiscriminant(0, 0, 0);
+            if (d != 0) return false;
+       
+
             return isProgramOk;
+        }
+        static double GetX(double a, double b, double c)
+        {
+            return -b / (2 * a);
+        }
+        static double GetX1(double a, double b, double c)
+        {
+            return (-b + Math.Pow(GetDiscriminant(a, b, c), 0.5)) / (2 * a);
+        }
+        static double GetX2(double a, double b, double c)
+        {
+            return (-b - Math.Pow(GetDiscriminant(a, b, c), 0.5)) / (2 * a);
         }
     }
 }
